@@ -34,7 +34,6 @@ import pandas as pd
 
 # In[3]:
 
-
 def get_image(image_path):
     img = image.load_img(image_path, target_size=(224, 224))
     if ALIGN == True:
@@ -235,63 +234,34 @@ def evaluate_gs(X_train, y_train, X_dev, y_dev, model_name, model=None):
 
 PICKLES_PATH = Path('pickles')
 nb_class = 100
-path = '/media/gokce/Data/BOUN/Spring19/Cmpe58Z/term-project/real-face-subset/'
-real_faces = get_dataset(path, get_vgg_features, '_vgg')
-
+path = 'real-face-subset'
+real_faces_vgg = get_dataset(path, get_vgg_features, 'vgg')
 
 # In[15]:
-pipeline(real_faces)
-
+real_faces_vgg_result = pipeline(real_faces_vgg, 'real_faces_vgg')
 
 # In[82]:
-
-
 ALIGN = True
-path = '/media/gokce/Data/BOUN/Spring19/Cmpe58Z/term-project/real-face-subset/'
-real_faces = get_dataset(path, get_vgg_features, '_vgg_aligned')
-pipeline(real_faces)
+real_faces_vgg_aligned = get_dataset(path, get_vgg_features, 'vgg_aligned')
 
+# In[15]:
+real_faces_vgg_aligned_result = pipeline(real_faces_vgg_aligned, 'real_faces_vgg_aligned')
 
 # In[19]:
-
-
-path = '/media/gokce/Data/BOUN/Spring19/Cmpe58Z/term-project/faces_in_artwork/'
-faces_in_artwork = get_dataset(path, get_vgg_features, '_vgg')
-
+ALIGN = False
+path = 'faces_in_artwork'
+faces_in_artwork_vgg = get_dataset(path, get_vgg_features, 'vgg')
 
 # In[20]:
-
-
-path = '/media/gokce/Data/BOUN/Spring19/Cmpe58Z/term-project/'
-faces_in_artwork = load_dataset(os.path.join(path, 'faces_in_artwork_vgg'))
-pipeline(faces_in_artwork)
+faces_in_artwork_vgg_result = pipeline(faces_in_artwork_vgg, 'faces_in_artwork_vgg')
 
 
 # In[80]:
+ALIGN = True
 
-
-get_ipython().run_line_magic('time', '')
-path = '/media/gokce/Data/BOUN/Spring19/Cmpe58Z/term-project/faces_in_artwork/'
-faces_in_artwork = get_dataset(path, get_vgg_features, '_vgg_aligned')
+faces_in_artwork_vgg_aligned = get_dataset(path, get_vgg_features, 'vgg_aligned')
 
 
 # In[81]:
-
-
-pipeline(faces_in_artwork)
-
-
-# In[37]:
-
-
-Cs = [0.001, 0.01, 0.1, 1, 10]
-gammas = [0.001, 0.01, 0.1, 1]
-param_grid = {'C': Cs, 'gamma' : gammas}
-clf = GridSearchCV(estimator=svc_1, param_grid=param_grid, n_jobs=-1)
-clf.fit(x_train, y_train)        
-print(clf.best_score_)                                  
-print(clf.best_estimator_.C)                            
- # Prediction performance on test set is not as good as on train set
-y_pred = clf.predict(x_test)
-clf.score(x_test, y_test) 
+faces_in_artwork_vgg_aligned_result = pipeline(faces_in_artwork_vgg_aligned, 'faces_in_artwork_vgg_aligned')
 
