@@ -134,7 +134,7 @@ def get_vgg_features(image_path):
     if ALIGN == True:
         from skimage.transform import rescale, resize
         x = resize(x, (1, 224, 224), anti_aliasing=True)
-    return (img, pretrained_vgg.predict(x))
+    return (image_path, pretrained_vgg.predict(x))
 
 pretrained_vgg = VGGFace(include_top=False, input_shape=(224, 224, 3), pooling='avg') # pooling: None, avg or max
 
@@ -235,6 +235,8 @@ def evaluate_gs(X_train, y_train, X_dev, y_dev, model_name, model=None):
 PICKLES_PATH = Path('pickles')
 nb_class = 100
 path = 'real-face-subset'
+#%%
+ALIGN = False
 real_faces_vgg = get_dataset(path, get_vgg_features, 'vgg')
 
 # In[15]:
@@ -242,6 +244,7 @@ real_faces_vgg_result = pipeline(real_faces_vgg, 'real_faces_vgg')
 
 # In[82]:
 ALIGN = True
+path = 'real-face-subset'
 real_faces_vgg_aligned = get_dataset(path, get_vgg_features, 'vgg_aligned')
 
 # In[15]:
@@ -258,7 +261,7 @@ faces_in_artwork_vgg_result = pipeline(faces_in_artwork_vgg, 'faces_in_artwork_v
 
 # In[80]:
 ALIGN = True
-
+path = 'faces_in_artwork'
 faces_in_artwork_vgg_aligned = get_dataset(path, get_vgg_features, 'vgg_aligned')
 
 
